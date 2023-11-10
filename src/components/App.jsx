@@ -3,15 +3,19 @@ import { Component } from 'react';
 import { List } from './List/List';
 import { Filter } from './Filter/Filter';
 
+const KEY = 'contacts';
+const contacts = JSON.parse(window.localStorage.getItem(KEY)) ?? [];
+
 export class App extends Component{
   state = {
-    contacts: [
-      {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-      {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-      {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-      {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-    ],
+    contacts: contacts ,
     filter: ''
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+      if (prevState.contacts !== this.state.contacts) {
+        window.localStorage.setItem(KEY, JSON.stringify(this.state.contacts));
+      }
   }
 
   handleSubmit = (obj) => {
@@ -22,6 +26,7 @@ export class App extends Component{
           contacts: [...prevState.contacts, obj]
         }
       })
+      localStorage.setItem(JSON.stringify(obj))
     } else {
       alert(`${obj.name} is already in contacts`);
     }
