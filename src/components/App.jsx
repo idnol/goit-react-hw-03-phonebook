@@ -19,7 +19,7 @@ export class App extends Component{
   }
 
   handleSubmit = (obj) => {
-    const hasContact = this.state.contacts.some(item => item.name === obj.name)
+    const hasContact = this.state.contacts.some(item => item.name.toLowerCase() === obj.name.toLowerCase())
     if (!hasContact) {
       this.setState(prevState => {
         return {
